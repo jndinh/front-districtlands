@@ -14,6 +14,7 @@ class _mapControl
 
         this.menuSet();
         this.mapButtons();
+        this.loadBoarder();
     }
 
     menuSet()
@@ -87,7 +88,7 @@ class _mapControl
     //between red and blue
     loadGeoJsonTest()
     {
-        this.map.data.loadGeoJson("md-district.geojson");
+        this.map.data.loadGeoJson("geodata/md-district.geojson");
 
         var mapcolorCount=1;
 
@@ -114,6 +115,15 @@ class _mapControl
 
             infowindow.setPosition(e.latLng);
             infowindow.open(this.map);
+        });
+    }
+
+    loadBoarder()
+    {
+        this.map.data.loadGeoJson("geodata/md-border.geojson");
+
+        this.map.data.setStyle((f)=>{
+            return {strokeColor:"#e7395a",fillColor:"#e7395a",fillOpacity:.1,strokeWeight:2};
         });
     }
 
