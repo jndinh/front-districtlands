@@ -65,13 +65,13 @@ a
     display: flex;
     height: 100px;
     flex-direction: column;
-    overflow: hidden;
     transition: height .4s;
 }
 
 .menu-bar.hidden
 {
     height: 0px;
+    overflow: hidden;
 }
 
 .menu-bar.expanded
