@@ -6,8 +6,10 @@
     <meta charset="UTF-8">
 
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style2.css">
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2EOy46tlnP68_YjXDEgSS0PFuwbKd3-I&language=de" async defer></script>
+    <script src="togeojson.js"></script>
     <script src="mapcontrol.js"></script>
     <script src="main.js"></script>
   </head>
@@ -19,9 +21,9 @@
       <div class="menu-bar">
         <div class="menu-contain">
           <div class="menu-buttons">
-            <a class="button test1">user start location</a>
-            <a class="button">predetermined start</a>
-            <a class="button expand">additional information</a>
+            <a class="button test1">User Start Location<span class="userhelp">This button is to redistrict based on user selection. Select a location on the map.</span></a>
+            <a class="button test2">Predetermined Start<span class="predeterminedhelp">This button is to redistrict based on a predtermined location. No action outside of selecting button is necessary.</span></a>
+            <a class="button expand">Additional Information</a>
           </div>
 
           <div class="left-control maximise">
@@ -73,7 +75,7 @@
           </table>
 
           <div class="text-box white-round-box">
-            <i>(sample text)</i> Gerrymandering should not be confused with malapportionment, whereby the number of eligible voters per elected representative can vary widely without relation to how the boundaries are drawn. Nevertheless, the -mander suffix has been applied to particular malapportionments. Sometimes political representatives use both gerrymandering and malapportionment to try to maintain power.
+            This product is to redistrict Maryland. Hover over the two start buttons for additional help on those specific actions. 
           </div>
         </div>
       </div>
