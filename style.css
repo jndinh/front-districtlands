@@ -107,6 +107,7 @@ a
     border-radius: 2px;
     cursor: pointer;
     transition: background-color .2s;
+    position: relative;
 }
 
 .menu-bar .button:hover,.map .menu-show:hover
