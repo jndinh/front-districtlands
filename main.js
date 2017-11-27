@@ -1,25 +1,8 @@
-window.onload=main;
+const express=require("express");
+const serveStatic=require("serve-static");
 
-var control;
+var app=express();
 
-function main()
-{
-    control=new _mapControl;
-}
+app.use(serveStatic(".",{}));
 
-function htest(rurl="https://districtlands.herokuapp.com/")
-{
-    console.log("he");
-    var r=new XMLHttpRequest();
-
-    r.open("GET",rurl);
-
-    r.onreadystatechange=()=>{
-        if (r.readyState==4)
-        {
-            console.log(r.response);
-        }
-    };
-
-    r.send();
-}
+app.listen(process.env.PORT || 8881);
