@@ -1,28 +1,35 @@
 .bubble
 {
-	height: 17px;
+	height: 15px;
 }
 
 .button .help
 {
 	visibility: hidden;
-	width: 120px;
+	width: 180px;
 	background-color: white;
 	text-align: center;
 	color: black;
-	font-size: 10px;
-	padding: 5px 0;
+	font-size: 13px;
+	padding: 5px;
 	border-radius: 6px;
-	opacity: .8;
 
 	position: absolute;
-	top: 100%;
-	z-index: 1;
-	left: 50%;
-	margin-left: -60px;
 }
 
-.button:hover .help
+.help.user-location
+{
+	top: -200%;
+	left: 40%;
+}
+
+.help.pd-location
+{
+	top: -250%;
+	left: 43%;
+}
+
+.help-contain:hover .help
 {
 	visibility: visible;
 }
