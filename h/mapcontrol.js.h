@@ -6,6 +6,8 @@ class _mapControl
 
     element menu; //main menu bar element
     element menuShow; //custom button inserted into google map
+    element expandMenuButton;
+    int currentMenyState;
 
     void menuSet(); //menu actions
     void mapButtons(); //custom buttons rendered by google map

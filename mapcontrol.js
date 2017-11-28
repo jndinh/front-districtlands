@@ -11,6 +11,7 @@ class _mapControl
         this.direction=new google.maps.DirectionsService();
 
         this.menu=document.querySelector(".menu-bar");
+        this.currentMenuState=1;
 
         this.menuSet();
         this.mapButtons();
@@ -19,13 +20,9 @@ class _mapControl
 
     menuSet()
     {
-        var expandMenuButton=this.menu.querySelector(".expand");
+        this.expandMenuButton=this.menu.querySelector(".expand");
         this.menu.querySelector(".minimise").addEventListener("click",(e)=>{
-            this.menu.classList.remove("expanded");
-            this.menu.classList.add("hidden");
-            this.menuShow.classList.remove("hidden");
-            this.emap.classList.remove("unmaximise");
-            expandMenuButton.innerText="additional information";
+            this.menuBarState(this.currentMenuState-1);
         });
 
         this.menu.querySelector(".test1").addEventListener("click",(e)=>{
@@ -33,21 +30,18 @@ class _mapControl
         });
 
         this.menu.querySelector(".maximise").addEventListener("click",(e)=>{
-            this.emap.classList.add("unmaximise");
+            this.menuBarState(3);
         });
 
-        expandMenuButton.addEventListener("click",(e)=>{
+        this.expandMenuButton.addEventListener("click",(e)=>{
             if (!this.menu.classList.contains("expanded"))
             {
-                this.menu.classList.add("expanded");
-                expandMenuButton.innerText="minimise additional information";
+                this.menuBarState(2);
             }
 
             else
             {
-                this.menu.classList.remove("expanded");
-                this.emap.classList.remove("unmaximise");
-                expandMenuButton.innerText="additional information";
+                this.menuBarState(1);
             }
         });
     }
@@ -149,5 +143,41 @@ class _mapControl
         // };
 
         // r.send();
+    }
+
+    menuBarState(state)
+    {
+        if (state<0)
+        {
+            state=0;
+        }
+
+        this.currentMenuState=state;
+        switch (state)
+        {
+            case 1:
+            this.menu.classList.remove("expanded");
+            this.emap.classList.remove("unmaximise");
+            this.expandMenuButton.innerText="additional information";
+            break;
+
+            case 2:
+            this.menu.classList.add("expanded");
+            this.emap.classList.remove("unmaximise");
+            this.expandMenuButton.innerText="minimise additional information";
+            break;
+
+            case 0:
+            this.menu.classList.remove("expanded");
+            this.menu.classList.add("hidden");
+            this.menuShow.classList.remove("hidden");
+            this.emap.classList.remove("unmaximise");
+            this.expandMenuButton.innerText="additional information";
+            break;
+
+            case 3:
+            this.emap.classList.add("unmaximise");
+            break;
+        }
     }
 }
