@@ -34,7 +34,7 @@ class _mapControl
         });
 
         this.expandMenuButton.addEventListener("click",(e)=>{
-            if (!this.menu.classList.contains("expanded"))
+            if (this.currentMenuState==1)
             {
                 this.menuBarState(2);
             }
@@ -145,6 +145,10 @@ class _mapControl
         // r.send();
     }
 
+    /*0: gone
+      1: normal
+      2: expanded
+      3: maximised */
     menuBarState(state)
     {
         if (state<0)
