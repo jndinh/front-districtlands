@@ -25,7 +25,7 @@ class _mapControl
             this.menuBarState(this.currentMenuState-1);
         });
 
-        this.menu.querySelector(".test1").addEventListener("click",(e)=>{
+        this.menu.querySelector(".pd-start").addEventListener("click",(e)=>{
             this.loadGeoJsonTest();
         });
 
