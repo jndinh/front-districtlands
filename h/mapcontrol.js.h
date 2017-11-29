@@ -17,6 +17,7 @@ class _mapControl
     void loadBorder();
 
     /*-- map functions --*/
+    void selectTrack();
     void roadLineDrawtest();
     void loadGeoJsonTest();
 

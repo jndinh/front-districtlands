@@ -25,6 +25,10 @@ class _mapControl
             this.menuBarState(this.currentMenuState-1);
         });
 
+        this.menu.querySelector(".user-start").addEventListener("click",(e)=>{
+            this.selectTrack();
+        });
+
         this.menu.querySelector(".pd-start").addEventListener("click",(e)=>{
             this.loadGeoJsonTest();
         });
@@ -74,6 +78,20 @@ class _mapControl
             });
 
             path.setMap(this.map);
+        });
+    }
+
+    selectTrack()
+    {
+        this.map.data.loadGeoJson("geodata/md-district.geojson",{},(features)=>{
+            for (var x=0,l=features.length;x<l;x++)
+            {
+
+            }
+        });
+
+        this.map.data.addListener("click",(e)=>{
+            console.log(e.feature.getProperty("name"));
         });
     }
 
