@@ -82,7 +82,7 @@ class _mapControl
     //between red and blue
     loadGeoJsonTest()
     {
-        this.map.data.loadGeoJson("geodata/md-district.geojson");
+        this.map.data.loadGeoJson("geodata/md.geojson");
 
         var mapcolorCount=1;
 

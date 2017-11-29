@@ -7,12 +7,11 @@ function main()
     control=new _mapControl;
 }
 
-function htest(rurl="https://districtlands.herokuapp.com/")
+function htest(rurl="https://districtlands-backend.herokuapp.com/start/")
 {
-    console.log("he");
     var r=new XMLHttpRequest();
 
-    r.open("GET",rurl);
+    r.open("POST",rurl);
 
     r.onreadystatechange=()=>{
         if (r.readyState==4)
@@ -21,5 +20,5 @@ function htest(rurl="https://districtlands.herokuapp.com/")
         }
     };
 
-    r.send();
+    r.send("hey");
 }
