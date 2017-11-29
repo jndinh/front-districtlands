@@ -15,7 +15,7 @@ class _mapControl
 
         this.menuSet();
         this.mapButtons();
-        this.loadBoarder();
+        this.loadBorder();
     }
 
     menuSet()
@@ -53,8 +53,7 @@ class _mapControl
         this.menuShow.innerHTML="▴";
 
         this.menuShow.addEventListener("click",(e)=>{
-            this.menu.classList.remove("hidden");
-            this.menuShow.classList.add("hidden");
+            this.menuBarState(1);
         });
 
         this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(this.menuShow);
@@ -112,37 +111,13 @@ class _mapControl
         });
     }
 
-    loadBoarder()
+    loadBorder()
     {
         this.map.data.loadGeoJson("geodata/md-border.geojson");
 
         this.map.data.setStyle((f)=>{
             return {strokeColor:"#e7395a",fillColor:"#e7395a",fillOpacity:.1,strokeWeight:2};
         });
-    }
-
-    loadTracs()
-    {
-        // var kml=new google.maps.KmlLayer({
-        //     map:this.map,
-        //     url:"https://raw.githubusercontent.com/khang4/wahlkreisstest/master/tracs/cb_2016_24_tract_500k.kml"
-        // });
-
-        // var r=new XMLHttpRequest();
-
-        // r.open("GET","tracs/cb_2016_24_tract_500k.kml");
-
-        // r.responseType="document";
-        // r.onreadystatechange=()=>{
-        //     if (r.readyState==4)
-        //     {
-        //         var geodata=toGeoJSON.kml(r.response);
-        //         console.log(geodata);
-        //         this.map.data.addGeoJson(geodata);
-        //     }
-        // };
-
-        // r.send();
     }
 
     /*0: gone
@@ -161,6 +136,8 @@ class _mapControl
         {
             case 1:
             this.menu.classList.remove("expanded");
+            this.menu.classList.remove("hidden");
+            this.menuShow.classList.add("hidden");
             this.emap.classList.remove("unmaximise");
             this.expandMenuButton.innerText="additional information";
             break;
