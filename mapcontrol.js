@@ -13,9 +13,12 @@ class _mapControl
         this.menu=document.querySelector(".menu-bar");
         this.currentMenuState=1;
 
+        this.userSelectMode=0;
+
         this.menuSet();
         this.mapButtons();
         this.loadBorder();
+        this.genFourColour();
     }
 
     menuSet()
@@ -63,35 +66,46 @@ class _mapControl
         this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(this.menuShow);
     }
 
-    //draw a polyline from a coordinate to another, following
-    //roads by using the direction api
-    roadLineDrawtest()
-    {
-        this.direction.route({
-            origin:{lng:-78,lat:39.137},
-            destination:{lat:39.281,lng:-76.60},
-            travelMode:google.maps.TravelMode.DRIVING
-        },(r,s)=>{
-            var pathPoints=r.routes[0].overview_path;
-            var path=new google.maps.Polyline({
-                path:pathPoints
-            });
-
-            path.setMap(this.map);
-        });
-    }
-
     selectTrack()
     {
-        this.map.data.loadGeoJson("geodata/md-district.geojson",{},(features)=>{
+        this.fadeBorder();
+        this.userSelectMode=1;
+        this.map.data.loadGeoJson("geodata/md.geojson",{},(features)=>{
             for (var x=0,l=features.length;x<l;x++)
             {
+                this.map.data.overrideStyle(features[x],{
+                    strokeWeight:0
+                });
+            }
+        });
 
+        this.map.data.addListener("mouseover",(e)=>{
+            if (e.feature.getProperty("TRACTCE") && this.userSelectMode)
+            {
+                this.map.data.overrideStyle(e.feature,{
+                    strokeWeight:1
+                });
+            }
+        });
+
+        this.map.data.addListener("mouseout",(e)=>{
+            if (e.feature.getProperty("TRACTCE") && this.userSelectMode)
+            {
+                this.map.data.overrideStyle(e.feature,{
+                    strokeWeight:0
+                });
             }
         });
 
         this.map.data.addListener("click",(e)=>{
-            console.log(e.feature.getProperty("name"));
+            if (e.feature.getProperty("TRACTCE") && this.userSelectMode)
+            {
+                console.log(e.feature.getProperty("TRACTCE"));
+                this.map.data.overrideStyle(e.feature,{
+                    strokeWeight:0
+                });
+                this.userSelectMode=0;
+            }
         });
     }
 
@@ -99,22 +113,42 @@ class _mapControl
     //between red and blue
     loadGeoJsonTest()
     {
-        this.map.data.loadGeoJson("geodata/md.geojson");
-
-        var mapcolorCount=1;
-
-        this.map.data.setStyle((f)=>{
-            var color="red";
-
-            if (mapcolorCount%2)
+        this.map.data.loadGeoJson("geodata/md-district.geojson",{},(features)=>{
+            var colourCount=0;
+            for (var x=0,l=features.length;x<l;x++)
             {
-                color="blue";
+                this.map.data.overrideStyle(features[x],{
+                    fillColor:this.Rcolours[colourCount],
+                    fillOpacity:.5,
+                    strokeColor:this.Rcolours[colourCount]
+
+                });
+
+                colourCount++;
+
+                if (colourCount>=this.Rcolours.length)
+                {
+                    colourCount=0;
+                }
             }
-
-            mapcolorCount++;
-
-            return {fillColor:color,strokeColor:color,strokeWeight:1};
         });
+
+        // var mapcolorCount=1;
+
+        // this.map.data.setStyle((f)=>{
+        //     var color="red";
+
+        //     if (mapcolorCount%2)
+        //     {
+        //         color="blue";
+        //     }
+
+        //     mapcolorCount++;
+
+        //     return {fillColor:color,strokeColor:color,strokeWeight:1};
+        // });
+
+
 
         var infowindow=new google.maps.InfoWindow({
             content:`<table class="info-table"><tbody><tr><td>sample</td><td>data</td></tr><tr><td>sample</td><td>data</td></tr><tr><td>sample</td><td>data</td></tr></tbody></table>`
@@ -131,10 +165,19 @@ class _mapControl
 
     loadBorder()
     {
-        this.map.data.loadGeoJson("geodata/md-border.geojson");
+        this.map.data.setStyle({
+            fillOpacity:0,
+            strokeWeight:0
+        });
 
-        this.map.data.setStyle((f)=>{
-            return {strokeColor:"#e7395a",fillColor:"#e7395a",fillOpacity:.1,strokeWeight:2};
+        this.map.data.loadGeoJson("geodata/md-border.geojson",{},(feature)=>{
+            this.border=feature[0];
+            this.map.data.overrideStyle(feature[0],{
+                strokeColor:"#e7395a",
+                fillColor:"#e7395a",
+                fillOpacity:.1,
+                strokeWeight:2
+            });
         });
     }
 
@@ -178,5 +221,33 @@ class _mapControl
             this.emap.classList.add("unmaximise");
             break;
         }
+    }
+
+    genFourColour()
+    {
+        // var hues=[randint(37,48),randint(349,359),randint(203,249),randint(29,155)];
+        var hues=[randint(0,96),randint(97,179),randint(180,260),randint(261,359)];
+
+        shuffleArray(hues);
+
+        this.Rcolours=[];
+        for (var x=0;x<4;x++)
+        {
+            this.Rcolours.push("#"+new tinycolor(`hsv(${hues[x]},75,91)`).toHex());
+        }
+
+        for (var x=0;x<4;x++)
+        {
+            this.Rcolours.push("#"+new tinycolor(`hsv(${hues[x]},54,97)`).toHex());
+        }
+
+        console.log(this.Rcolours);
+    }
+
+    fadeBorder()
+    {
+        this.map.data.overrideStyle(this.border,{
+            fillOpacity:0
+        });
     }
 }

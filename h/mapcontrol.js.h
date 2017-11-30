@@ -11,16 +11,22 @@ class _mapControl
     element expandMenuButton;
     int currentMenuState;
 
+    /*-- geo feature stuff --*/
+    string-array Rcolour;
+    feature border;
+    int userSelectMode;
+
     /*-- initialisation --*/
     void menuSet(); //menu actions
     void mapButtons(); //custom buttons rendered by google map
     void loadBorder();
+    void genFourColour();
 
     /*-- map functions --*/
     void selectTrack();
-    void roadLineDrawtest();
     void loadGeoJsonTest();
 
     /*-- utility --*/
     void menuBarState(int state);
+    void fadeBorder();
 }
