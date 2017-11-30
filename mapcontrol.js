@@ -42,14 +42,14 @@ class _mapControl
         });
 
         this.expandMenuButton.addEventListener("click",(e)=>{
-            if (this.currentMenuState==1)
+            if (this.currentMenuState<=1)
             {
-                this.menuBarState(2);
+                this.menuBarState(this.currentMenuState+1);
             }
 
             else
             {
-                this.menuBarState(1);
+                this.menuBarState(this.currentMenuState-1);
             }
         });
     }
@@ -241,13 +241,13 @@ class _mapControl
             this.menu.classList.remove("expanded");
             this.menu.classList.remove("hidden");
             this.menuShow.classList.add("hidden");
-            this.emap.classList.remove("unmaximise");
             this.expandMenuButton.innerText="additional information";
             break;
 
             case 2:
             this.menu.classList.add("expanded");
             this.emap.classList.remove("unmaximise");
+            this.menu.classList.remove("maximise");
             this.expandMenuButton.innerText="minimise additional information";
             break;
 
@@ -255,12 +255,12 @@ class _mapControl
             this.menu.classList.remove("expanded");
             this.menu.classList.add("hidden");
             this.menuShow.classList.remove("hidden");
-            this.emap.classList.remove("unmaximise");
             this.expandMenuButton.innerText="additional information";
             break;
 
             case 3:
             this.emap.classList.add("unmaximise");
+            this.menu.classList.add("maximise");
             break;
         }
     }

@@ -157,34 +157,34 @@ a
     text-align: center;
     border-left: 1px solid rgba(255,255,255,1);
     box-sizing: border-box;
+    transition: border-left-color .2s;
 }
 
 .left-control.minimise .inner
 {
-    transition: border-left-color .2s;
-}
-
-.menu-bar.expanded .left-control.minimise .inner
-{
     border-left-color: rgba(255,255,255,0);
 }
 
-.menu-bar.expanded .left-control.maximise:hover
+.menu-bar.maximise .left-control.minimise .inner
 {
-    opacity: .6;
+    border-left-color: rgba(255,255,255,1);
 }
 
 .left-control.maximise
 {
-    opacity: 0;
-    transform: translateX(10px);
+    opacity: 1;
     transition: opacity .3s,transform .3s;
 }
 
-.menu-bar.expanded .left-control.maximise
+.menu-bar.maximise .left-control.maximise
 {
-    opacity: 1;
-    transform: translateX(0px);
+    opacity: 0;
+    transform: translateX(10px);
+}
+
+.menu-bar.maximise .left-control.maximise:hover
+{
+    opacity: 0;
 }
 
 /*-- general information elements --*/
