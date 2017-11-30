@@ -15,16 +15,18 @@ class _mapControl
     string-array Rcolour;
     feature border;
     int userSelectMode;
+    object tracks;
 
     /*-- initialisation --*/
     void menuSet(); //menu actions
     void mapButtons(); //custom buttons rendered by google map
-    void loadBorder();
+    void loadFeatures();
     void genFourColour();
 
     /*-- map functions --*/
     void selectTrack();
     void loadGeoJsonTest();
+    void loadAlgoTest();
 
     /*-- utility --*/
     void menuBarState(int state);

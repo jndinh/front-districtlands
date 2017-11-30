@@ -17,7 +17,7 @@ class _mapControl
 
         this.menuSet();
         this.mapButtons();
-        this.loadBorder();
+        this.loadFeatures();
         this.genFourColour();
     }
 
@@ -33,7 +33,8 @@ class _mapControl
         });
 
         this.menu.querySelector(".pd-start").addEventListener("click",(e)=>{
-            this.loadGeoJsonTest();
+            // this.loadGeoJsonTest();
+            this.loadAlgoTest();
         });
 
         this.menu.querySelector(".maximise").addEventListener("click",(e)=>{
@@ -70,12 +71,120 @@ class _mapControl
     {
         this.fadeBorder();
         this.userSelectMode=1;
-        this.map.data.loadGeoJson("geodata/md.geojson",{},(features)=>{
+    }
+
+    //load geojson from a file and alternate colouring
+    //between red and blue
+    loadGeoJsonTest()
+    {
+        this.map.data.loadGeoJson("geodata/md-district.geojson",{},(features)=>{
+            var colourCount=0;
             for (var x=0,l=features.length;x<l;x++)
             {
                 this.map.data.overrideStyle(features[x],{
-                    strokeWeight:0
+                    fillColor:this.Rcolours[colourCount],
+                    fillOpacity:.5,
+                    strokeColor:this.Rcolours[colourCount]
                 });
+
+                colourCount++;
+
+                if (colourCount>=this.Rcolours.length)
+                {
+                    colourCount=0;
+                }
+            }
+        });
+
+        var infowindow=new google.maps.InfoWindow({
+            content:`<table class="info-table"><tbody><tr><td>sample</td><td>data</td></tr><tr><td>sample</td><td>data</td></tr><tr><td>sample</td><td>data</td></tr></tbody></table>`
+        });
+
+        this.map.data.addListener("click",(e)=>{
+            // console.log(e.latLng.lat());
+            // console.log(e.latLng.lng());
+
+            infowindow.setPosition(e.latLng);
+            infowindow.open(this.map);
+        });
+    }
+
+    loadAlgoTest()
+    {
+        var r=new XMLHttpRequest();
+
+        r.open("GET","algotest.json");
+
+        r.onreadystatechange=()=>{
+            if (r.readyState==4)
+            {
+                var data=JSON.parse(r.response).data;
+
+                console.log(data);
+
+                var trackid;
+                var colourCount=0;
+                for (var x=0,l=data.length;x<l;x++)
+                {
+                    for (var y=0,yl=data[x].tracts.length;y<yl;y++)
+                    {
+                        // console.log(data[x].tracts[y]);
+                        trackid=data[x].tracts[y];
+
+                        if (!this.tracks[trackid])
+                        {
+                            console.log("missing?",trackid);
+                        }
+
+                        this.map.data.overrideStyle(this.tracks[trackid],{
+                            fillColor:this.Rcolours[colourCount],
+                            fillOpacity:1
+                        });
+                    }
+
+                    colourCount++;
+
+                    if (colourCount>=this.Rcolours.length)
+                    {
+                        colourCount=0;
+                    }
+                }
+            }
+        };
+
+        r.send();
+    }
+
+    loadFeatures()
+    {
+        this.map.data.setStyle({
+            fillOpacity:0,
+            strokeWeight:0
+        });
+
+        this.map.data.loadGeoJson("geodata/md-border.geojson",{},(feature)=>{
+            this.border=feature[0];
+            this.map.data.overrideStyle(feature[0],{
+                strokeColor:"#e7395a",
+                fillColor:"#e7395a",
+                fillOpacity:.1,
+                strokeWeight:2
+            });
+        });
+
+        this.tracks={};
+        var tid;
+        this.map.data.loadGeoJson("geodata/md.geojson",{},(features)=>{
+            for (var x=0,l=features.length;x<l;x++)
+            {
+                tid=features[x].getProperty("TRACTCE");
+
+                if (this.tracks[tid])
+                {
+                    console.log("dupe!",tid);
+                }
+
+                this.tracks[tid]=features[x];
             }
         });
 
@@ -106,78 +215,6 @@ class _mapControl
                 });
                 this.userSelectMode=0;
             }
-        });
-    }
-
-    //load geojson from a file and alternate colouring
-    //between red and blue
-    loadGeoJsonTest()
-    {
-        this.map.data.loadGeoJson("geodata/md-district.geojson",{},(features)=>{
-            var colourCount=0;
-            for (var x=0,l=features.length;x<l;x++)
-            {
-                this.map.data.overrideStyle(features[x],{
-                    fillColor:this.Rcolours[colourCount],
-                    fillOpacity:.5,
-                    strokeColor:this.Rcolours[colourCount]
-
-                });
-
-                colourCount++;
-
-                if (colourCount>=this.Rcolours.length)
-                {
-                    colourCount=0;
-                }
-            }
-        });
-
-        // var mapcolorCount=1;
-
-        // this.map.data.setStyle((f)=>{
-        //     var color="red";
-
-        //     if (mapcolorCount%2)
-        //     {
-        //         color="blue";
-        //     }
-
-        //     mapcolorCount++;
-
-        //     return {fillColor:color,strokeColor:color,strokeWeight:1};
-        // });
-
-
-
-        var infowindow=new google.maps.InfoWindow({
-            content:`<table class="info-table"><tbody><tr><td>sample</td><td>data</td></tr><tr><td>sample</td><td>data</td></tr><tr><td>sample</td><td>data</td></tr></tbody></table>`
-        });
-
-        this.map.data.addListener("click",(e)=>{
-            // console.log(e.latLng.lat());
-            // console.log(e.latLng.lng());
-
-            infowindow.setPosition(e.latLng);
-            infowindow.open(this.map);
-        });
-    }
-
-    loadBorder()
-    {
-        this.map.data.setStyle({
-            fillOpacity:0,
-            strokeWeight:0
-        });
-
-        this.map.data.loadGeoJson("geodata/md-border.geojson",{},(feature)=>{
-            this.border=feature[0];
-            this.map.data.overrideStyle(feature[0],{
-                strokeColor:"#e7395a",
-                fillColor:"#e7395a",
-                fillOpacity:.1,
-                strokeWeight:2
-            });
         });
     }
 
@@ -240,8 +277,6 @@ class _mapControl
         {
             this.Rcolours.push("#"+new tinycolor(`hsv(${hues[x]},54,97)`).toHex());
         }
-
-        console.log(this.Rcolours);
     }
 
     fadeBorder()
