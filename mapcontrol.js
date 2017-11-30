@@ -8,8 +8,6 @@ class _mapControl
             zoom:8
         });
 
-        this.direction=new google.maps.DirectionsService();
-
         this.menu=document.querySelector(".menu-bar");
         this.currentMenuState=1;
 
@@ -19,6 +17,12 @@ class _mapControl
         this.mapButtons();
         this.loadFeatures();
         this.genFourColour();
+
+        google.maps.event.addListenerOnce(this.map,"idle",(e)=>{
+            setTimeout(()=>{
+                this.menuBarState(1);
+            },100);
+        });
     }
 
     menuSet()
@@ -57,7 +61,7 @@ class _mapControl
     mapButtons()
     {
         this.menuShow=document.createElement("div");
-        this.menuShow.classList.add("menu-show","hidden");
+        this.menuShow.classList.add("menu-show");
         this.menuShow.innerHTML="▴";
 
         this.menuShow.addEventListener("click",(e)=>{
