@@ -38,7 +38,7 @@ class _mapControl
         });
 
         this.menu.querySelector(".maximise").addEventListener("click",(e)=>{
-            this.menuBarState(3);
+            this.menuBarState(this.currentMenuState+1);
         });
 
         this.expandMenuButton.addEventListener("click",(e)=>{
@@ -227,6 +227,11 @@ class _mapControl
         if (state<0)
         {
             state=0;
+        }
+
+        if (state>=3)
+        {
+            state=3;
         }
 
         this.currentMenuState=state;
