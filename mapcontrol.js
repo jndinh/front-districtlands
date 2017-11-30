@@ -21,6 +21,16 @@ class _mapControl
         google.maps.event.addListenerOnce(this.map,"idle",(e)=>{
             setTimeout(()=>{
                 this.menuBarState(1);
+
+                setTimeout(()=>{
+                    var splash=document.querySelector(".splash");
+                    splash.classList.add("close");
+
+                    setTimeout(()=>{
+                        splash.parentElement.removeChild(splash);
+                    },300);
+
+                },100);
             },100);
         });
     }

@@ -1,0 +1,17 @@
+.splash
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-size: 20px;
+    z-index: 10;
+    opacity: 1;
+    background-color: #e7395a;
+    transition: opacity .2s;
+}
+
+.splash.close
+{
+    opacity: 0;
+}
