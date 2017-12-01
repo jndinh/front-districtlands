@@ -11,7 +11,10 @@ body
     margin: 0;
     font-size: 0;
     font-family: roboto,meiryo,Arial,Helvetica,sans-serif;
-    background-color: #e7395a;
+    background-color: white;
+    background-image: url("districtland-icon.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
 }
 
 a
@@ -28,6 +31,7 @@ a
     flex-direction: column;
     overflow: hidden;
     opacity: 1;
+    background-color: #e7395a;
     transition: opacity .2s;
 }
 
