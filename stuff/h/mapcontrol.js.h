@@ -3,15 +3,14 @@ class _mapControl
     /*-- gmap api stuff --*/
     element emap;
     Map map; //map object from google map api
-    DirectionService direction; //direction service object
 
-    /*-- map control stuff --*/
+    /*-- map control elements --*/
     element menu; //main menu bar element
     element menuShow; //custom button inserted into google map
     element expandMenuButton;
     int currentMenuState;
 
-    /*-- geo feature stuff --*/
+    /*-- geo features stuff --*/
     string-array Rcolour;
     feature border;
     int userSelectMode;
@@ -21,7 +20,7 @@ class _mapControl
     void menuSet(); //menu actions
     void mapButtons(); //custom buttons rendered by google map
     void loadFeatures();
-    void genFourColour();
+    void genFourColour(); //choose 4 colours to use for feature shaders
 
     /*-- map functions --*/
     void selectTrack();
@@ -30,5 +29,6 @@ class _mapControl
 
     /*-- utility --*/
     void menuBarState(int state);
-    void fadeBorder();
+    void fadeBorder(float opacity); //hide border fill, or set to given value
+    void resetTracks(); //hide all coloured tracks
 }

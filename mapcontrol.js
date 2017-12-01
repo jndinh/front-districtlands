@@ -83,6 +83,7 @@ class _mapControl
 
     selectTrack()
     {
+        this.resetTracks();
         this.fadeBorder();
         this.userSelectMode=1;
     }
@@ -125,6 +126,7 @@ class _mapControl
 
     loadAlgoTest()
     {
+        this.resetTracks();
         var r=new XMLHttpRequest();
 
         r.open("GET","algotest.json");
@@ -298,10 +300,20 @@ class _mapControl
         }
     }
 
-    fadeBorder()
+    fadeBorder(opacity=0)
     {
         this.map.data.overrideStyle(this.border,{
-            fillOpacity:0
+            fillOpacity:opacity
         });
+    }
+
+    resetTracks()
+    {
+        for (var x in this.tracks)
+        {
+            this.map.data.overrideStyle(this.tracks[x],{
+                fillOpacity:0
+            });
+        }
     }
 }
