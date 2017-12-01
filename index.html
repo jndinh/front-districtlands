@@ -4,25 +4,39 @@
 
   <head>
     <meta charset="UTF-8">
+    <title>Distractlands</title>
+    <link rel="icon" href="districtland-icon.png">
 
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" type="text/css" href="style2.css">
+    <link rel="stylesheet" type="text/css" href="helpstyles.css">
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2EOy46tlnP68_YjXDEgSS0PFuwbKd3-I&language=de" async defer></script>
-    <script src="togeojson.js"></script>
+    <script src="tinycolor.js"></script>
     <script src="mapcontrol.js"></script>
     <script src="index.js"></script>
   </head>
 
   <body>
-    <div class="wrap">
+    <div class="wrap unloaded">
       <div class="map"></div>
 
-      <div class="menu-bar">
+      <div class="menu-bar hidden">
         <div class="menu-contain">
           <div class="menu-buttons">
-            <a class="button test1">User Start Location<span class="userhelp">This button is to redistrict based on user selection. Select a location on the map.</span></a>
-            <a class="button test2">Predetermined Start<span class="predeterminedhelp">This button is to redistrict based on a predtermined location. No action outside of selecting button is necessary.</span></a>
+            <a class="button user-start">
+              User Start Location
+              <span class="help-contain">
+                <img class="bubble" src="infobubble.png">
+                <span class="help user-location">This button is to redistrict based on user selection. Select a location on the map.</span>
+              </span>
+            </a>
+            <a class="button pd-start">
+              Predetermined Start
+              <span class="help-contain">
+                <img class="bubble" src="infobubble.png">
+                <span class="help pd-location">This button is to redistrict based on a predtermined location. No action outside of selecting button is necessary.</span>
+              </span>
+            </a>
             <a class="button expand">Additional Information</a>
           </div>
 
@@ -43,39 +57,34 @@
           <table class="info-table white-round-box">
             <tbody>
                 <tr>
-                  <th>sample</th>
-                  <th>table</th>
-                  <th>design</th>
+                  <th>District</th>
+                  <th>Population</th>
                 </tr>
 
                 <tr>
                   <td>0</td>
-                  <td>something</td>
-                  <td>else</td>
+                  <td>Coming soon...</td>
                 </tr>
 
                 <tr>
                   <td>1</td>
-                  <td>something</td>
-                  <td>else</td>
+                  <td>Coming soon...</td>
                 </tr>
 
                 <tr>
                   <td>2</td>
-                  <td>something</td>
-                  <td>else</td>
+                  <td>Coming soon...</td>
                 </tr
                 >
                 <tr>
                   <td>3</td>
-                  <td>something</td>
-                  <td>else</td>
+                  <td>Coming soon...</td>
                 </tr>
             </tbody>
           </table>
 
           <div class="text-box white-round-box">
-            This product is to redistrict Maryland. Hover over the two start buttons for additional help on those specific actions.
+            This product is to redistrict Maryland. Hover over the information icon on the two start buttons for additional help on those specific actions.
           </div>
         </div>
       </div>
