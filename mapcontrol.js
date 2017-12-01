@@ -202,16 +202,17 @@ class _mapControl
         });
 
         this.tracks={};
+        this.dupes=[];
         var tid;
         this.map.data.loadGeoJson("geodata/md.geojson",{},(features)=>{
             for (var x=0,l=features.length;x<l;x++)
             {
                 tid=features[x].getProperty("TRACTCE");
 
-                // if (this.tracks[tid])
-                // {
-                //     console.log("dupe!",tid);
-                // }
+                if (this.tracks[tid])
+                {
+                    this.dupes.push(tid);
+                }
 
                 this.tracks[tid]=features[x];
             }

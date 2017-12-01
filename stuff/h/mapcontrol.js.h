@@ -35,4 +35,5 @@ class _mapControl
     /*-- adjacency mode --*/
     void loadAdjs();
     object adjacents;
+    array dupes;
 }
