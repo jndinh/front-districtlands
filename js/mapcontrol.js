@@ -120,7 +120,7 @@ class _mapControl
         this.resetTracks();
         var r=new XMLHttpRequest();
 
-        r.open("GET","algotest.json");
+        r.open("GET","geodata/algotest.json");
 
         r.onreadystatechange=()=>{
             if (r.readyState==4)
@@ -218,20 +218,20 @@ class _mapControl
             }
         });
 
-        var strokeVar;
         this.map.data.addListener("mouseover",(e)=>{
             if (e.feature.getProperty("TRACTCE") && (this.userSelectMode || this.adjacents))
             {
-                strokeVar="black";
-
                 if (this.adjacents)
                 {
-                    strokeVar="red";
+                    this.map.data.overrideStyle(e.feature,{
+                        strokeWeight:1,
+                        strokeColor:"red"
+                    });
                 }
 
                 this.map.data.overrideStyle(e.feature,{
                     strokeWeight:1,
-                    strokeColor:strokeVar
+                    strokeColor:"black"
                 });
             }
         });
@@ -275,6 +275,7 @@ class _mapControl
                     fillOpacity:1
                 });
 
+                console.log(currentAdjacents);
                 for (var x=0,l=currentAdjacents.length;x<l;x++)
                 {
                     this.map.data.overrideStyle(this.tracks[currentAdjacents[x]],{
