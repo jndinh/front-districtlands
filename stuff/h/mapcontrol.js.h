@@ -31,4 +31,8 @@ class _mapControl
     void menuBarState(int state);
     void fadeBorder(float opacity); //hide border fill, or set to given value
     void resetTracks(); //hide all coloured tracks
+
+    /*-- adjacency mode --*/
+    void loadAdjs();
+    object adjacents;
 }

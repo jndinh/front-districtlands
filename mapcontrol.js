@@ -162,6 +162,28 @@ class _mapControl
         r.send();
     }
 
+    loadAdjs()
+    {
+        var r=new XMLHttpRequest();
+        r.open("GET","geodata/adjacencies.json");
+        r.onreadystatechange=()=>{
+            if (r.readyState==4)
+            {
+                this.adjacents=JSON.parse(r.response);
+
+                for (var x in this.tracks)
+                {
+                    this.map.data.overrideStyle(this.tracks[x],{
+                        strokeWeight:1
+                    });
+                }
+
+                console.log("adjacents loaded");
+            }
+        };
+        r.send();
+    }
+
     loadFeatures()
     {
         this.map.data.setStyle({
@@ -186,30 +208,49 @@ class _mapControl
             {
                 tid=features[x].getProperty("TRACTCE");
 
-                if (this.tracks[tid])
-                {
-                    console.log("dupe!",tid);
-                }
+                // if (this.tracks[tid])
+                // {
+                //     console.log("dupe!",tid);
+                // }
 
                 this.tracks[tid]=features[x];
             }
         });
 
+        var strokeVar;
         this.map.data.addListener("mouseover",(e)=>{
-            if (e.feature.getProperty("TRACTCE") && this.userSelectMode)
+            if (e.feature.getProperty("TRACTCE") && (this.userSelectMode || this.adjacents))
             {
+                strokeVar="black";
+
+                if (this.adjacents)
+                {
+                    strokeVar="red";
+                }
+
                 this.map.data.overrideStyle(e.feature,{
-                    strokeWeight:1
+                    strokeWeight:1,
+                    strokeColor:strokeVar
                 });
             }
         });
 
         this.map.data.addListener("mouseout",(e)=>{
-            if (e.feature.getProperty("TRACTCE") && this.userSelectMode)
+            if (e.feature.getProperty("TRACTCE") && (this.userSelectMode || this.adjacents))
             {
-                this.map.data.overrideStyle(e.feature,{
-                    strokeWeight:0
-                });
+                if (this.adjacents)
+                {
+                    this.map.data.overrideStyle(e.feature,{
+                        strokeColor:"black"
+                    });
+                }
+
+                else
+                {
+                    this.map.data.overrideStyle(e.feature,{
+                        strokeWeight:0
+                    });
+                }
             }
         });
 
@@ -221,6 +262,25 @@ class _mapControl
                     strokeWeight:0
                 });
                 this.userSelectMode=0;
+            }
+
+            if (e.feature.getProperty("TRACTCE") && this.adjacents)
+            {
+                this.resetTracks();
+                var currentAdjacents=this.adjacents[e.feature.getProperty("TRACTCE")];
+
+                this.map.data.overrideStyle(e.feature,{
+                    fillColor:"blue",
+                    fillOpacity:1
+                });
+
+                for (var x=0,l=currentAdjacents.length;x<l;x++)
+                {
+                    this.map.data.overrideStyle(this.tracks[currentAdjacents[x]],{
+                        fillColor:"blue",
+                        fillOpacity:1
+                    });
+                }
             }
         });
     }
