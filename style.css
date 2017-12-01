@@ -27,6 +27,13 @@ a
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    opacity: 1;
+    transition: opacity .2s;
+}
+
+.wrap.unloaded
+{
+    opacity: 0;
 }
 
 .map
