@@ -126,7 +126,7 @@ class _mapControl
 
         r.open("GET","https://districtlands-backend.herokuapp.com/start/");
 
-        this.logRed("starting algorithm: user-start, redistricting by: population...");
+        this.logRed("starting algorithm: predetermine-start, redistricting by: population...");
         r.onreadystatechange=()=>{
             if (r.readyState==4)
             {
