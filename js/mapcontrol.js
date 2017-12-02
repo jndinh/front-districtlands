@@ -186,7 +186,7 @@ class _mapControl
         this.map.data.loadGeoJson("geodata/md.geojson",{},(features)=>{
             for (var x=0,l=features.length;x<l;x++)
             {
-                tid=features[x].getProperty("TRACTCE");
+                tid=features[x].getProperty("GEOID");
 
                 if (this.tracks[tid])
                 {
@@ -198,7 +198,7 @@ class _mapControl
         });
 
         this.map.data.addListener("mouseover",(e)=>{
-            if (e.feature.getProperty("TRACTCE") && (this.userSelectMode || this.adjacents))
+            if (e.feature.getProperty("GEOID") && (this.userSelectMode || this.adjacents))
             {
                 if (this.adjacents)
                 {
@@ -216,7 +216,7 @@ class _mapControl
         });
 
         this.map.data.addListener("mouseout",(e)=>{
-            if (e.feature.getProperty("TRACTCE") && (this.userSelectMode || this.adjacents))
+            if (e.feature.getProperty("GEOID") && (this.userSelectMode || this.adjacents))
             {
                 if (this.adjacents)
                 {
@@ -237,11 +237,11 @@ class _mapControl
 
 
         this.map.data.addListener("click",(e)=>{
-            if (e.feature.getProperty("TRACTCE"))
+            if (e.feature.getProperty("GEOID"))
             {
                 if (this.userSelectMode)
                 {
-                    loadUserDistricts(e.feature.getProperty("TRACTCE"));
+                    loadUserDistricts(e.feature.getProperty("GEOID"));
                     this.map.data.overrideStyle(e.feature,{
                         strokeWeight:0
                     });
@@ -258,7 +258,7 @@ class _mapControl
                 else if (this.adjacents)
                 {
                     this.resetTracks();
-                    var currentAdjacents=this.adjacents[e.feature.getProperty("TRACTCE")];
+                    var currentAdjacents=this.adjacents[e.feature.getProperty("GEOID")];
 
                     this.map.data.overrideStyle(e.feature,{
                         fillColor:"blue",
