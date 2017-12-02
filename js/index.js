@@ -27,16 +27,55 @@ function htest2()
 {
     var r=new XMLHttpRequest();
 
-    r.open("POST","https://districtlands-backend.herokuapp.com/start/");
+    r.open("GET","https://districtlands-backend.herokuapp.com/start/");
 
     r.onreadystatechange=()=>{
         if (r.readyState==4)
         {
+            console.log(r.response);
             console.log(JSON.parse(r.response));
         }
     };
 
     r.send();
+}
+
+function htest3()
+{
+    var r=new XMLHttpRequest();
+
+    r.open("POST","https://districtlands-backend.herokuapp.com/userstart/");
+
+    r.onreadystatechange=()=>{
+        if (r.readyState==4)
+        {
+            console.log(r.response);
+            console.log(JSON.parse(r.response));
+        }
+    };
+
+    r.setRequestHeader("content-type","application/x-www-form-urlencoded");
+    // r.setRequestHeader("content-type","application/json");
+
+    r.send("tract_id=807000");
+}
+
+function loadUserDistricts(trackid)
+{
+    var r=new XMLHttpRequest();
+    r.open("POST","https://districtlands-backend.herokuapp.com/userstart/");
+
+    control.menuBarState(2);
+    control.logRed(`starting algorithm: user-start, starting tract: ${trackid}, redistricting by: population...`);
+    r.onreadystatechange=()=>{
+        if (r.readyState==4)
+        {
+            control.loadDistricts(JSON.parse(r.response).districts);
+        }
+    };
+
+    r.setRequestHeader("content-type","application/x-www-form-urlencoded");
+    r.send(`tract_id=${trackid}`);
 }
 
 function randint(min,max)

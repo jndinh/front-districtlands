@@ -9,6 +9,7 @@ class _mapControl
         });
 
         this.menu=document.querySelector(".menu-bar");
+        this.redconsole=this.menu.querySelector(".console");
         this.currentMenuState=1;
 
         this.userSelectMode=0;
@@ -34,12 +35,14 @@ class _mapControl
         });
 
         this.menu.querySelector(".user-start").addEventListener("click",(e)=>{
+            this.menuBarState(2);
             this.selectTrack();
         });
 
         this.menu.querySelector(".pd-start").addEventListener("click",(e)=>{
             // this.loadGeoJsonTest();
-            this.loadAlgoTest();
+            this.menuBarState(2);
+            this.loadPdDistricts();
         });
 
         this.menu.querySelector(".maximise").addEventListener("click",(e)=>{
@@ -76,6 +79,7 @@ class _mapControl
     {
         this.resetTracks();
         this.fadeBorder();
+        this.logRed("please click on the map to select a start location.");
         this.userSelectMode=1;
     }
 
@@ -115,47 +119,20 @@ class _mapControl
         });
     }
 
-    loadAlgoTest()
+    loadPdDistricts()
     {
         this.resetTracks();
         var r=new XMLHttpRequest();
 
-        r.open("GET","geodata/algotest.json");
+        r.open("GET","https://districtlands-backend.herokuapp.com/start/");
 
+        this.logRed("starting algorithm: user-start, redistricting by: population...");
         r.onreadystatechange=()=>{
             if (r.readyState==4)
             {
-                var data=JSON.parse(r.response).data;
+                var data=JSON.parse(r.response).districts;
 
-                console.log(data);
-
-                var trackid;
-                var colourCount=0;
-                for (var x=0,l=data.length;x<l;x++)
-                {
-                    for (var y=0,yl=data[x].tracts.length;y<yl;y++)
-                    {
-                        // console.log(data[x].tracts[y]);
-                        trackid=data[x].tracts[y];
-
-                        if (!this.tracks[trackid])
-                        {
-                            console.log("missing?",trackid);
-                        }
-
-                        this.map.data.overrideStyle(this.tracks[trackid],{
-                            fillColor:this.Rcolours[colourCount],
-                            fillOpacity:1
-                        });
-                    }
-
-                    colourCount++;
-
-                    if (colourCount>=this.Rcolours.length)
-                    {
-                        colourCount=0;
-                    }
-                }
+                this.loadDistricts(data);
             }
         };
 
@@ -258,7 +235,7 @@ class _mapControl
         this.map.data.addListener("click",(e)=>{
             if (e.feature.getProperty("TRACTCE") && this.userSelectMode)
             {
-                console.log(e.feature.getProperty("TRACTCE"));
+                loadUserDistricts(e.feature.getProperty("TRACTCE"));
                 this.map.data.overrideStyle(e.feature,{
                     strokeWeight:0
                 });
@@ -368,5 +345,48 @@ class _mapControl
                 fillOpacity:0
             });
         }
+    }
+
+    logRed(msg)
+    {
+        this.redconsole.insertAdjacentHTML("afterbegin",`<p>${msg}</p>`);
+        this.redconsole.scrollTop=0;
+    }
+
+    //give it district array of stuff from district request
+    loadDistricts(data)
+    {
+        // console.log(data);
+        this.logRed(`data received: ${data.length} districts.`);
+
+        var trackid;
+        var colourCount=0;
+        for (var x=0,l=data.length;x<l;x++)
+        {
+            this.logRed(`loading district ${x+1}...`);
+            for (var y=0,yl=data[x].tracts.length;y<yl;y++)
+            {
+                // console.log(data[x].tracts[y]);
+                trackid=data[x].tracts[y];
+
+                if (!this.tracks[trackid])
+                {
+                    console.log("missing?",trackid);
+                }
+
+                this.map.data.overrideStyle(this.tracks[trackid],{
+                    fillColor:this.Rcolours[colourCount],
+                    fillOpacity:1
+                });
+            }
+
+            colourCount++;
+
+            if (colourCount>=this.Rcolours.length)
+            {
+                colourCount=0;
+            }
+        }
+        this.logRed("districting complete.");
     }
 }

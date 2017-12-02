@@ -17,6 +17,11 @@ body
     background-position: 50% 50%;
 }
 
+p
+{
+    margin: 0;
+}
+
 a
 {
     text-decoration: none;
@@ -246,4 +251,13 @@ table.info-table td
 .map-bubble
 {
     width: 200px;
+}
+
+/*-- console --*/
+.console
+{
+    width: 540px;
+    height: 300px;
+    font-family: "roboto mono";
+    overflow: auto;
 }

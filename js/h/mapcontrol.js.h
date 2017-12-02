@@ -9,6 +9,7 @@ class _mapControl
     element menuShow; //custom button inserted into google map
     element expandMenuButton;
     int currentMenuState;
+    element redconsole;
 
     /*-- geo features stuff --*/
     string-array Rcolour;
@@ -25,7 +26,8 @@ class _mapControl
     /*-- map functions --*/
     void selectTrack();
     void loadGeoJsonTest();
-    void loadAlgoTest();
+    void loadPdDistricts();
+    void loadDistricts(array data);
 
     /*-- utility --*/
     void menuBarState(int state);
