@@ -176,7 +176,8 @@ class _mapControl
                 strokeColor:"#e7395a",
                 fillColor:"#e7395a",
                 fillOpacity:.1,
-                strokeWeight:2
+                strokeWeight:2,
+                zIndex:-10
             });
         });
 
@@ -233,8 +234,6 @@ class _mapControl
                 }
             }
         });
-
-
 
         this.map.data.addListener("click",(e)=>{
             if (e.feature.getProperty("GEOID"))
