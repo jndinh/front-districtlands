@@ -256,8 +256,8 @@ table.info-table td
 /*-- console --*/
 .console
 {
-    width: 540px;
-    height: 300px;
+    width: 445px;
+    height: 170px;
     font-family: "Roboto Mono";
     overflow: auto;
 }

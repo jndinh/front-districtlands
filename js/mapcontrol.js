@@ -23,6 +23,7 @@ class _mapControl
             setTimeout(()=>{
                 document.querySelector(".wrap").classList.remove("unloaded");
                 this.menuBarState(1);
+                this.logRed("map ready. awaiting input.");
             },100);
         });
     }
