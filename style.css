@@ -10,7 +10,7 @@ body
     height: 100%;
     margin: 0;
     font-size: 0;
-    font-family: roboto,meiryo,Arial,Helvetica,sans-serif;
+    font-family: "Roboto",meiryo,Arial,Helvetica,sans-serif;
     background-color: white;
     background-image: url("districtland-icon.png");
     background-repeat: no-repeat;
@@ -258,6 +258,6 @@ table.info-table td
 {
     width: 540px;
     height: 300px;
-    font-family: "roboto mono";
+    font-family: "Roboto Mono";
     overflow: auto;
 }
