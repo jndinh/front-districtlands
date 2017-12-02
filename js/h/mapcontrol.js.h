@@ -16,6 +16,8 @@ class _mapControl
     feature border;
     int userSelectMode;
     object tracks;
+    array districtData;
+    InfoWindow infowindow;
 
     /*-- initialisation --*/
     void menuSet(); //menu actions

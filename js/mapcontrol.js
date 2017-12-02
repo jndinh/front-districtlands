@@ -7,6 +7,7 @@ class _mapControl
             center:{lat:38.682,lng:-77.344},
             zoom:8
         });
+        this.infowindow=new google.maps.InfoWindow();
 
         this.menu=document.querySelector(".menu-bar");
         this.redconsole=this.menu.querySelector(".console");
@@ -108,7 +109,7 @@ class _mapControl
         });
 
         var infowindow=new google.maps.InfoWindow({
-            content:`<table class="info-table"><tbody><tr><td>sample</td><td>data</td></tr><tr><td>sample</td><td>data</td></tr><tr><td>sample</td><td>data</td></tr></tbody></table>`
+            content:`<table class="info-table"><tbody><tr><td>sample</td><td>data</td></tr><tr><td>sample</td><td>data</td></tbody></table>`
         });
 
         this.map.data.addListener("click",(e)=>{
@@ -233,33 +234,45 @@ class _mapControl
             }
         });
 
+
+
         this.map.data.addListener("click",(e)=>{
-            if (e.feature.getProperty("TRACTCE") && this.userSelectMode)
+            if (e.feature.getProperty("TRACTCE"))
             {
-                loadUserDistricts(e.feature.getProperty("TRACTCE"));
-                this.map.data.overrideStyle(e.feature,{
-                    strokeWeight:0
-                });
-                this.userSelectMode=0;
-            }
-
-            if (e.feature.getProperty("TRACTCE") && this.adjacents)
-            {
-                this.resetTracks();
-                var currentAdjacents=this.adjacents[e.feature.getProperty("TRACTCE")];
-
-                this.map.data.overrideStyle(e.feature,{
-                    fillColor:"blue",
-                    fillOpacity:1
-                });
-
-                console.log(currentAdjacents);
-                for (var x=0,l=currentAdjacents.length;x<l;x++)
+                if (this.userSelectMode)
                 {
-                    this.map.data.overrideStyle(this.tracks[currentAdjacents[x]],{
+                    loadUserDistricts(e.feature.getProperty("TRACTCE"));
+                    this.map.data.overrideStyle(e.feature,{
+                        strokeWeight:0
+                    });
+                    this.userSelectMode=0;
+                }
+
+                else if (e.feature.district>=0)
+                {
+                    this.infowindow.setContent(`<table class="info-table"><tbody><tr><td>district</td><td>${e.feature.district}</td></tr><tr><td>population</td><td>${this.districtData[e.feature.district].population}</td></tbody></table>`);
+                    this.infowindow.setPosition(e.latLng);
+                    this.infowindow.open(this.map);
+                }
+
+                else if (this.adjacents)
+                {
+                    this.resetTracks();
+                    var currentAdjacents=this.adjacents[e.feature.getProperty("TRACTCE")];
+
+                    this.map.data.overrideStyle(e.feature,{
                         fillColor:"blue",
                         fillOpacity:1
                     });
+
+                    console.log(currentAdjacents);
+                    for (var x=0,l=currentAdjacents.length;x<l;x++)
+                    {
+                        this.map.data.overrideStyle(this.tracks[currentAdjacents[x]],{
+                            fillColor:"blue",
+                            fillOpacity:1
+                        });
+                    }
                 }
             }
         });
@@ -345,6 +358,8 @@ class _mapControl
             this.map.data.overrideStyle(this.tracks[x],{
                 fillOpacity:0
             });
+            this.infowindow.close();
+            this.tracks[x].district=-1;
         }
     }
 
@@ -362,9 +377,11 @@ class _mapControl
 
         var trackid;
         var colourCount=0;
+        this.districtData=[];
         for (var x=0,l=data.length;x<l;x++)
         {
             this.logRed(`loading district ${x+1}...`);
+            this.districtData.push({population:data[x].population});
             for (var y=0,yl=data[x].tracts.length;y<yl;y++)
             {
                 // console.log(data[x].tracts[y]);
@@ -373,12 +390,16 @@ class _mapControl
                 if (!this.tracks[trackid])
                 {
                     console.log("missing?",trackid);
+                    this.logRed(`warning: track ${trackid} not found.`);
+                    continue;
                 }
 
                 this.map.data.overrideStyle(this.tracks[trackid],{
                     fillColor:this.Rcolours[colourCount],
                     fillOpacity:1
                 });
+
+                this.tracks[trackid].district=x;
             }
 
             colourCount++;
