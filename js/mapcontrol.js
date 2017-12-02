@@ -210,8 +210,8 @@ class _mapControl
                 }
 
                 this.map.data.overrideStyle(e.feature,{
-                    strokeWeight:1,
-                    strokeColor:"black"
+                    strokeWeight:2,
+                    strokeColor:"#AB1330"
                 });
             }
         });
