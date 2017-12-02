@@ -294,7 +294,7 @@ class _mapControl
             this.menu.classList.add("expanded");
             this.emap.classList.remove("unmaximise");
             this.menu.classList.remove("maximise");
-            this.expandMenuButton.innerText="minimise additional information";
+            this.expandMenuButton.innerText="minimize additional information";
             break;
 
             case 0:
